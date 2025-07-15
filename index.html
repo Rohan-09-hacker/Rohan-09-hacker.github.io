@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeUp!!!</title>
+    <title>TradeUp!!!!</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script>
@@ -61,9 +61,11 @@
             <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Complete Your Payment</h2>
             <p class="text-gray-600 dark:text-gray-300 mb-4">Scan the QR code with any UPI app to pay.</p>
             
-            <img src="https://i.imgur.com/j8hFkWS.jpeg" alt="UPI QR Code" class="mx-auto w-48 h-48 border rounded-lg bg-white p-2">
+            <!-- FINAL FIX: Using the new, correct direct link from Postimages -->
+            <img src="https://i.postimg.cc/ryS4sYFx/Whats-App-Image-2025-06-25-at-12-35-14-2423b9d7.jpg" alt="UPI QR Code" class="mx-auto w-48 h-48 border rounded-lg bg-white p-2">
             
-            <p class="mt-4 font-semibold text-lg text-gray-800 dark:text-white">UPI ID: kawarkirk230@okaxis</p>
+            <!-- CORRECTED: UPI ID now matches the image -->
+            <p class="mt-4 font-semibold text-lg text-gray-800 dark:text-white">UPI ID: tradeupweb@oksbi</p>
             <p class="font-bold text-2xl text-blue-600 my-2">Amount: ₹999</p>
             
             <hr class="my-6 border-gray-200 dark:border-gray-600">
@@ -326,8 +328,23 @@
         }
         
         function handleCopyCode() {
-            const code = document.getElementById('dashboard-referral-code').textContent;
-            navigator.clipboard.writeText(code).then(() => alert('Referral code copied to clipboard!'));
+            const codeEl = document.getElementById('dashboard-referral-code');
+            if (codeEl) {
+                const code = codeEl.textContent;
+                // Create a temporary textarea to perform the copy command
+                const textArea = document.createElement("textarea");
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    alert('Referral code copied to clipboard!');
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    alert('Failed to copy code. Please copy it manually.');
+                }
+                document.body.removeChild(textArea);
+            }
         }
 
         // --- Payment Modal Logic ---
@@ -389,6 +406,10 @@
                 successDiv.classList.remove('hidden');
 
             } catch (error) {
+                // If user already exists, we might need to sign them out before showing the error
+                if (auth.currentUser) {
+                    await signOut(auth);
+                }
                 errorDiv.textContent = error.message;
                 errorDiv.classList.remove('hidden');
             } finally {
