@@ -6,6 +6,8 @@
     <title>TradeUp!!!!</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
         // Configure Tailwind CSS for dark mode
         tailwind.config = {
@@ -21,9 +23,6 @@
         body { font-family: 'Inter', sans-serif; }
         .page { display: none; }
         .page.active { display: block; }
-        .modal-overlay {
-            transition: opacity 0.3s ease;
-        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
@@ -55,31 +54,6 @@
         <div id="dashboard" class="page"></div>
     </main>
 
-    <!-- Payment Modal -->
-    <div id="payment-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-30">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 max-w-sm w-full text-center">
-            <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Complete Your Payment</h2>
-            <p class="text-gray-600 dark:text-gray-300 mb-4">Scan the QR code with any UPI app to pay.</p>
-            
-            <!-- FINAL FIX: Using the new, correct direct link from Postimages -->
-            <img src="https://i.postimg.cc/ryS4sYFx/Whats-App-Image-2025-06-25-at-12-35-14-2423b9d7.jpg" alt="UPI QR Code" class="mx-auto w-48 h-48 border rounded-lg bg-white p-2">
-            
-            <!-- CORRECTED: UPI ID now matches the image -->
-            <p class="mt-4 font-semibold text-lg text-gray-800 dark:text-white">UPI ID: tradeupweb@oksbi</p>
-            <p class="font-bold text-2xl text-blue-600 my-2">Amount: ₹999</p>
-            
-            <hr class="my-6 border-gray-200 dark:border-gray-600">
-            
-            <p class="text-gray-600 dark:text-gray-300 mb-4">After paying, enter the UPI Transaction ID below to confirm your registration.</p>
-            <form id="payment-confirmation-form">
-                <input type="text" id="upi-transaction-id" placeholder="Enter UPI Transaction ID (e.g., 2185...)" required class="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-center text-gray-800 dark:text-white">
-                <button type="submit" id="confirm-payment-btn" class="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition">Confirm Payment</button>
-                <button type="button" id="cancel-payment-btn" class="w-full mt-2 text-gray-600 dark:text-gray-300 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">Cancel</button>
-            </form>
-        </div>
-    </div>
-
-
     <!-- Templates for Pages -->
     <template id="template-home">
         <section class="text-center">
@@ -95,33 +69,6 @@
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center"><div class="text-4xl mb-4 text-blue-500">3</div><h3 class="text-xl font-semibold mb-2 text-gray-800 dark:text-white">Earn Commissions</h3><p class="text-gray-600 dark:text-gray-300">Earn direct and level-based commissions for every sale made through your network.</p></div>
             </div>
         </section>
-        <!-- PDF Content Section -->
-        <section class="mt-16 pt-10 border-t border-gray-200 dark:border-gray-700">
-            <h2 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-10">What You'll Learn</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <!-- Column 1: SMC Global Securities -->
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">1. SMC Global Securities Ltd.</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-6">An overview of one of India's leading full-service brokerage and financial services companies.</p>
-                    <div class="space-y-2 text-gray-700 dark:text-gray-300">
-                        <p><strong>Founded:</strong> 1990</p>
-                        <p><strong>Headquarters:</strong> New Delhi, India</p>
-                        <p><strong>Services:</strong> Equity, Commodity, Currency, Mutual Funds, IPOs, Insurance, and more.</p>
-                    </div>
-                </div>
-                <!-- Column 2: Smart Money Concepts -->
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-                    <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">2. Smart Money Concepts (SMC)</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-6">A powerful trading strategy based on institutional behavior, popular in Forex, crypto, and stock indices.</p>
-                    <h4 class="font-semibold mb-2 text-gray-800 dark:text-white">Core Concepts Include:</h4>
-                    <ul class="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
-                        <li><strong>Market Structure:</strong> Recognizing trends.</li>
-                        <li><strong>Order Blocks (OB):</strong> Identifying key supply/demand zones.</li>
-                        <li><strong>Liquidity Pools:</strong> Finding where stop-losses are collected.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
     </template>
 
     <template id="template-login">
@@ -133,7 +80,30 @@
     </template>
 
     <template id="template-dashboard">
-        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">Dashboard</h1><div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6"><div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"><h4 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-2">Total Earnings</h4><p id="dashboard-earnings" class="text-3xl font-bold text-gray-800 dark:text-white">₹0.00</p></div><div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"><h4 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-2">Available Balance</h4><p id="dashboard-balance" class="text-3xl font-bold text-gray-800 dark:text-white">₹0.00</p></div><div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"><h4 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-2">Direct Referrals</h4><p id="dashboard-referrals" class="text-3xl font-bold text-gray-800 dark:text-white">0</p></div></div><div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"><h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-4">Your Referral Code</h3><div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg flex items-center justify-between"><p id="dashboard-referral-code" class="text-gray-800 dark:text-gray-200 font-mono">Loading...</p><button id="copy-code-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Copy Code</button></div></div>
+        <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-6">Dashboard</h1>
+        
+        <!-- Main Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"><h4 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-2">Total Earnings</h4><p id="dashboard-earnings" class="text-3xl font-bold text-gray-800 dark:text-white">₹0.00</p></div>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"><h4 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-2">Available Balance</h4><p id="dashboard-balance" class="text-3xl font-bold text-gray-800 dark:text-white">₹0.00</p></div>
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"><h4 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-2">Direct Referrals</h4><p id="dashboard-referrals" class="text-3xl font-bold text-gray-800 dark:text-white">0</p></div>
+        </div>
+
+        <!-- NEW: PDF Download Section -->
+        <div class="mb-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-4">Your Product</h3>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">You have successfully purchased the SMC Trading Concepts guide. Click the button below to download.</p>
+            <a id="download-pdf-btn" href="#" target="_blank" class="inline-block w-full text-center bg-blue-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-600 transition-colors">Download Your Guide (PDF)</a>
+        </div>
+
+        <!-- Referral Code Section -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-4">Your Referral Code</h3>
+            <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg flex items-center justify-between">
+                <p id="dashboard-referral-code" class="text-gray-800 dark:text-gray-200 font-mono">Loading...</p>
+                <button id="copy-code-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Copy Code</button>
+            </div>
+        </div>
     </template>
 
 
@@ -164,14 +134,16 @@
         const PRODUCT_PRICE = 999;
         const PRODUCT_NAME = "SMC Trading Concepts PDF";
         const DIRECT_COMMISSION_RATE = 0.20; // 20%
-        const LEVEL_1_COMMISSION_RATE = 0.10; // 10%
+        // IMPORTANT: Replace with your actual Razorpay Key ID
+        const RAZORPAY_KEY_ID = "rzp_test_5CIB1xZFguKz19"; 
+        // IMPORTANT: Replace with your PDF's Firebase Storage URL
+        const PDF_DOWNLOAD_URL = "https://files.catbox.moe/22kej8.pptx";
 
         // --- UI Elements ---
         const pages = document.querySelectorAll('.page');
         const loginNavLink = document.getElementById('login-nav-link');
         const dashboardNavLink = document.getElementById('dashboard-nav-link');
         const logoutNavLink = document.getElementById('logout-nav-link');
-        const paymentModal = document.getElementById('payment-modal');
         const themeToggleButton = document.getElementById('theme-toggle');
         const lightIcon = document.getElementById('theme-toggle-light-icon');
         const darkIcon = document.getElementById('theme-toggle-dark-icon');
@@ -245,10 +217,8 @@
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 const userDoc = await getDoc(doc(db, "users", user.uid));
-                if (!userDoc.exists() || userDoc.data().paymentStatus === 'pending') {
-                    if (window.location.hash.substring(1) !== 'login') {
-                         await signOut(auth); // Force sign out if status is pending
-                    }
+                if (!userDoc.exists() || userDoc.data().paymentStatus !== 'completed') {
+                    await signOut(auth); 
                     return;
                 }
                 
@@ -296,16 +266,7 @@
             errorDiv.classList.add('hidden');
 
             try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                const userDoc = await getDoc(doc(db, "users", userCredential.user.uid));
-
-                if (!userDoc.exists() || userDoc.data().paymentStatus === 'pending') {
-                    await signOut(auth);
-                    errorDiv.textContent = "Your account is awaiting payment verification. Please try again later.";
-                    errorDiv.classList.remove('hidden');
-                    return;
-                }
-                
+                await signInWithEmailAndPassword(auth, email, password);
                 e.target.reset();
                 window.location.hash = 'dashboard';
             } catch (error) {
@@ -314,47 +275,9 @@
             }
         }
 
-        function handleRegister(e) {
+        async function handleRegister(e) {
             e.preventDefault();
-            const password = document.getElementById('register-password').value;
-            const errorDiv = document.getElementById('register-error');
-            errorDiv.classList.add('hidden');
-            if (password.length < 6) {
-                errorDiv.textContent = "Password must be at least 6 characters long.";
-                errorDiv.classList.remove('hidden');
-                return;
-            }
-            paymentModal.classList.remove('hidden');
-        }
-        
-        function handleCopyCode() {
-            const codeEl = document.getElementById('dashboard-referral-code');
-            if (codeEl) {
-                const code = codeEl.textContent;
-                // Create a temporary textarea to perform the copy command
-                const textArea = document.createElement("textarea");
-                textArea.value = code;
-                document.body.appendChild(textArea);
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                    alert('Referral code copied to clipboard!');
-                } catch (err) {
-                    console.error('Failed to copy text: ', err);
-                    alert('Failed to copy code. Please copy it manually.');
-                }
-                document.body.removeChild(textArea);
-            }
-        }
-
-        // --- Payment Modal Logic ---
-        document.getElementById('cancel-payment-btn').addEventListener('click', () => {
-            paymentModal.classList.add('hidden');
-        });
-
-        document.getElementById('payment-confirmation-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('confirm-payment-btn');
+            const btn = e.target.querySelector('button[type="submit"]');
             btn.disabled = true;
             btn.textContent = 'Processing...';
 
@@ -362,12 +285,57 @@
             const email = document.getElementById('register-email').value;
             const password = document.getElementById('register-password').value;
             const referralCode = document.getElementById('register-referral').value;
-            const transactionId = document.getElementById('upi-transaction-id').value;
-            
+            const errorDiv = document.getElementById('register-error');
+            errorDiv.classList.add('hidden');
+
+            if (password.length < 6) {
+                errorDiv.textContent = "Password must be at least 6 characters long.";
+                errorDiv.classList.remove('hidden');
+                btn.disabled = false;
+                btn.textContent = 'Register & Pay ₹999';
+                return;
+            }
+
+            initiateRazorpayPayment(name, email, password, referralCode);
+
+            setTimeout(() => {
+                if (!auth.currentUser) {
+                    btn.disabled = false;
+                    btn.textContent = 'Register & Pay ₹999';
+                }
+            }, 2000);
+        }
+
+        function initiateRazorpayPayment(name, email, password, referralCode) {
+            const options = {
+                key: RAZORPAY_KEY_ID,
+                amount: PRODUCT_PRICE * 100,
+                currency: "INR",
+                name: "TradeUp",
+                description: PRODUCT_NAME,
+                handler: async function (response) {
+                    await processSuccessfulPayment(response.razorpay_payment_id, name, email, password, referralCode);
+                },
+                prefill: { name, email },
+                theme: { color: "#3B82F6" },
+                modal: {
+                    ondismiss: function() {
+                        const btn = document.querySelector('#register-form button[type="submit"]');
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.textContent = 'Register & Pay ₹999';
+                        }
+                    }
+                }
+            };
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        async function processSuccessfulPayment(paymentId, name, email, password, referralCode) {
             const errorDiv = document.getElementById('register-error');
             const successDiv = document.getElementById('register-success');
-            errorDiv.classList.add('hidden');
-            successDiv.classList.add('hidden');
+            const btn = document.querySelector('#register-form button[type="submit"]');
 
             try {
                 let referrer = null;
@@ -382,7 +350,7 @@
                 const newUser = userCredential.user;
                 const ownReferralCode = `${name.split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '')}${Math.floor(1000 + Math.random() * 9000)}`;
 
-                const userData = { name, email, referralCode: ownReferralCode, referrerId: referrer ? referrer.uid : null, downline: [], createdAt: serverTimestamp(), totalEarnings: 0, balance: 0, paymentStatus: 'pending', upiTransactionId: transactionId };
+                const userData = { name, email, referralCode: ownReferralCode, referrerId: referrer ? referrer.uid : null, downline: [], createdAt: serverTimestamp(), totalEarnings: 0, balance: 0, paymentStatus: 'completed', razorpayPaymentId: paymentId };
                 
                 const batch = writeBatch(db);
                 batch.set(doc(db, "users", newUser.uid), userData);
@@ -390,33 +358,46 @@
                 if (referrer) {
                     const directCommission = PRODUCT_PRICE * DIRECT_COMMISSION_RATE;
                     const referrerRef = doc(db, "users", referrer.uid);
-                    batch.update(referrerRef, { downline: [...referrer.downline, newUser.uid] });
-                    
                     const newTotalEarnings = (referrer.totalEarnings || 0) + directCommission;
                     const newBalance = (referrer.balance || 0) + directCommission;
-                    batch.update(referrerRef, { totalEarnings: newTotalEarnings, balance: newBalance });
+                    batch.update(referrerRef, { downline: [...(referrer.downline || []), newUser.uid], totalEarnings: newTotalEarnings, balance: newBalance });
                 }
                 
                 await batch.commit();
-                await signOut(auth);
                 
-                paymentModal.classList.add('hidden');
                 document.getElementById('register-form').reset();
-                successDiv.textContent = 'Registration submitted! Your account will be activated after payment verification (within 24 hours).';
+                successDiv.textContent = 'Registration successful! You can now log in.';
                 successDiv.classList.remove('hidden');
+                setTimeout(() => { window.location.hash = 'login'; }, 3000);
 
             } catch (error) {
-                // If user already exists, we might need to sign them out before showing the error
-                if (auth.currentUser) {
-                    await signOut(auth);
-                }
-                errorDiv.textContent = error.message;
-                errorDiv.classList.remove('hidden');
+                errorDiv.textContent = `Payment was successful, but we failed to create your account. Please contact support. Error: ${error.message}`;
+                if (auth.currentUser) await signOut(auth);
             } finally {
-                btn.disabled = false;
-                btn.textContent = 'Confirm Payment';
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = 'Register & Pay ₹999';
+                }
             }
-        });
+        }
+        
+        function handleCopyCode() {
+            const codeEl = document.getElementById('dashboard-referral-code');
+            if (codeEl) {
+                const code = codeEl.textContent;
+                const textArea = document.createElement("textarea");
+                textArea.value = code;
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    alert('Referral code copied to clipboard!');
+                } catch (err) {
+                    alert('Failed to copy code.');
+                }
+                document.body.removeChild(textArea);
+            }
+        }
 
         // --- Dashboard Logic ---
         async function loadDashboardData(uid) {
@@ -428,6 +409,12 @@
                 document.getElementById('dashboard-balance').textContent = `₹${(userData.balance || 0).toFixed(2)}`;
                 document.getElementById('dashboard-referrals').textContent = userData.downline ? userData.downline.length : 0;
                 document.getElementById('dashboard-referral-code').textContent = userData.referralCode;
+
+                // Set the PDF download link
+                const downloadBtn = document.getElementById('download-pdf-btn');
+                if (downloadBtn) {
+                    downloadBtn.href = PDF_DOWNLOAD_URL;
+                }
             }
         }
         
