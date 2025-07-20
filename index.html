@@ -434,9 +434,13 @@
                     throw new Error(`Withdrawal amount cannot exceed your available balance of ₹${currentUserBalance.toFixed(2)}.`);
                 }
 
-                // --- Create request in Firestore ---
-                const requestsCollection = collection(db, "withdrawalRequests");
-                await addDoc(requestsCollection, {
+                // --- Use a batch write to perform multiple operations atomically ---
+                const batch = writeBatch(db);
+
+                // 1. Create the request document in Firestore
+                const requestsCollectionRef = collection(db, "withdrawalRequests");
+                const newRequestRef = doc(requestsCollectionRef); // Create ref for the new request
+                batch.set(newRequestRef, {
                     userId: user.uid,
                     userEmail: user.email,
                     amount: amount,
@@ -445,8 +449,19 @@
                     requestedAt: serverTimestamp()
                 });
 
-                // --- Show success message ---
-                successDiv.textContent = "Your withdrawal request has been submitted successfully! It will be processed shortly.";
+                // 2. Update the user's balance
+                const userDocRef = doc(db, "users", user.uid);
+                const newBalance = currentUserBalance - amount;
+                batch.update(userDocRef, { balance: newBalance });
+
+                // Commit both operations
+                await batch.commit();
+
+                // --- Update UI and state upon success ---
+                currentUserBalance = newBalance; // Update local state
+                document.getElementById('dashboard-balance').textContent = `₹${newBalance.toFixed(2)}`; // Update UI
+                
+                successDiv.textContent = "Your withdrawal request has been submitted successfully! Your balance has been updated.";
                 successDiv.classList.remove('hidden');
                 e.target.reset(); // Clear the form
 
