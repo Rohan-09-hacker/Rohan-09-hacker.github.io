@@ -77,13 +77,12 @@
             <div class="mb-8">
                 <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-2">Step 1: Pay ₹999</h3>
                 <p class="text-gray-600 dark:text-gray-300 mb-4">Scan the QR code below with any UPI app to make the payment.</p>
-                <!-- IMPORTANT: The placeholder has been replaced with your new QR code image -->
                 <img src="https://i.postimg.cc/V61wSdBz/qr2.jpg" alt="Payment QR Code" class="mx-auto rounded-lg shadow-md">
             </div>
 
             <div>
                 <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-2">Step 2: Enter The Access Code</h3>
-                <p class="text-gray-600 dark:text-gray-300 mb-4">After payment, enter the access code <strong class="text-blue-500">(send screenshot to 9041298437 and get access to master key soon)</strong> below to complete your registration.</p>
+                <p class="text-gray-600 dark:text-gray-300 mb-4">After payment, enter the access code <strong class="text-blue-500">will be sent to you by the team members after sharing the screenshot of payment in whatsapp</strong> below to complete your registration.</p>
                 <form id="access-form">
                     <div id="access-error" class="hidden bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-200 p-3 rounded-lg mb-4"></div>
                     <input type="text" id="access-code" placeholder="Enter The Access Code" required class="w-full p-3 mb-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white text-center"/>
@@ -104,6 +103,34 @@
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"><h4 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-2">Available Balance</h4><p id="dashboard-balance" class="text-3xl font-bold text-gray-800 dark:text-white">₹0.00</p></div>
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"><h4 class="text-gray-500 dark:text-gray-400 text-sm font-medium mb-2">Direct Referrals</h4><p id="dashboard-referrals" class="text-3xl font-bold text-gray-800 dark:text-white">0</p></div>
         </div>
+
+        <!-- NEW: Earnings Breakdown Section -->
+        <div class="mb-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-4">Earnings Breakdown</h3>
+            <div class="space-y-4">
+                <div>
+                    <div class="flex justify-between items-center">
+                        <p class="text-gray-600 dark:text-gray-300">Level 1 (Direct)</p>
+                        <p id="level-1-count" class="font-semibold text-gray-800 dark:text-white">0 Users</p>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <p class="text-gray-500 dark:text-gray-400">Commission: ₹300 / user</p>
+                        <p id="level-1-earnings" class="font-medium text-green-500">₹0.00</p>
+                    </div>
+                </div>
+                <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
+                    <div class="flex justify-between items-center">
+                        <p class="text-gray-600 dark:text-gray-300">Level 2 (Indirect)</p>
+                        <p id="level-2-count" class="font-semibold text-gray-800 dark:text-white">0 Users</p>
+                    </div>
+                    <div class="flex justify-between items-center text-sm">
+                        <p class="text-gray-500 dark:text-gray-400">Commission: ₹100 / user</p>
+                        <p id="level-2-earnings" class="font-medium text-green-500">₹0.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="mb-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-4">Your Product</h3>
             <p class="text-gray-600 dark:text-gray-300 mb-4">You have successfully gained access to the SMC Trading Concepts guide. Click the button below to download.</p>
@@ -116,23 +143,19 @@
                 <button id="copy-code-btn" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Copy Code</button>
             </div>
         </div>
-        <!-- NEW: Withdrawal Request Section -->
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-4">Request a Withdrawal</h3>
             <form id="withdrawal-form">
                 <div id="withdrawal-error" class="hidden bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-600 text-red-700 dark:text-red-200 p-3 rounded-lg mb-4"></div>
                 <div id="withdrawal-success" class="hidden bg-green-100 dark:bg-green-900 border border-green-400 dark:border-green-600 text-green-700 dark:text-green-200 p-3 rounded-lg mb-4"></div>
-                
                 <div class="mb-4">
                     <label for="withdrawal-amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Amount to Withdraw (₹)</label>
                     <input type="number" id="withdrawal-amount" placeholder="e.g., 500" required min="1" step="0.01" class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white"/>
                 </div>
-
                 <div class="mb-4">
                     <label for="withdrawal-upi" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Your UPI ID</label>
                     <input type="text" id="withdrawal-upi" placeholder="yourname@bank" required class="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white"/>
                 </div>
-
                 <button type="submit" class="w-full bg-indigo-500 text-white py-3 rounded-lg hover:bg-indigo-600 transition">Submit Withdrawal Request</button>
             </form>
         </div>
@@ -162,13 +185,11 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-       
         // --- App Constants ---
-        const PRODUCT_PRICE = 999;
-        const DIRECT_COMMISSION_RATE = 0.7007;
+        const LEVEL_1_COMMISSION = 300;
+        const LEVEL_2_COMMISSION = 100;
         const PDF_DOWNLOAD_URL = "https://files.catbox.moe/22kej8.pptx";
         const MASTER_ACCESS_CODE = "62994725"; // The static access code
-
 
         // --- App State ---
         let currentUserBalance = 0;
@@ -350,27 +371,47 @@
             }
 
             try {
-                let referrer = null;
+                let referrerLevel1 = null;
                 if (referralCode) {
                     const q = query(collection(db, "users"), where("referralCode", "==", referralCode));
                     const querySnapshot = await getDocs(q);
                     if (querySnapshot.empty) throw new Error("Invalid referral code.");
-                    referrer = { uid: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() };
+                    referrerLevel1 = { uid: querySnapshot.docs[0].id, ...querySnapshot.docs[0].data() };
                 }
 
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const newUser = userCredential.user;
                 const ownReferralCode = `${name.split(' ')[0].toLowerCase().replace(/[^a-z0-9]/g, '')}${Math.floor(1000 + Math.random() * 9000)}`;
-                const userData = { name, email, referralCode: ownReferralCode, referrerId: referrer ? referrer.uid : null, downline: [], createdAt: serverTimestamp(), totalEarnings: 0, balance: 0, paymentStatus: 'completed' };
+                const userData = { name, email, referralCode: ownReferralCode, referrerId: referrerLevel1 ? referrerLevel1.uid : null, downline: [], createdAt: serverTimestamp(), totalEarnings: 0, balance: 0, paymentStatus: 'completed' };
+                
                 const batch = writeBatch(db);
                 batch.set(doc(db, "users", newUser.uid), userData);
 
-                if (referrer) {
-                    const directCommission = PRODUCT_PRICE * DIRECT_COMMISSION_RATE;
-                    const referrerRef = doc(db, "users", referrer.uid);
-                    const newTotalEarnings = (referrer.totalEarnings || 0) + directCommission;
-                    const newBalance = (referrer.balance || 0) + directCommission;
-                    batch.update(referrerRef, { downline: [...(referrer.downline || []), newUser.uid], totalEarnings: newTotalEarnings, balance: newBalance });
+                // Pay Level 1 commission
+                if (referrerLevel1) {
+                    const referrerRef = doc(db, "users", referrerLevel1.uid);
+                    const newTotalEarningsL1 = (referrerLevel1.totalEarnings || 0) + LEVEL_1_COMMISSION;
+                    const newBalanceL1 = (referrerLevel1.balance || 0) + LEVEL_1_COMMISSION;
+                    batch.update(referrerRef, { 
+                        downline: [...(referrerLevel1.downline || []), newUser.uid], 
+                        totalEarnings: newTotalEarningsL1, 
+                        balance: newBalanceL1 
+                    });
+
+                    // Check for and pay Level 2 commission
+                    if (referrerLevel1.referrerId) {
+                        const referrerLevel2Ref = doc(db, "users", referrerLevel1.referrerId);
+                        const referrerLevel2Doc = await getDoc(referrerLevel2Ref);
+                        if (referrerLevel2Doc.exists()) {
+                            const referrerLevel2Data = referrerLevel2Doc.data();
+                            const newTotalEarningsL2 = (referrerLevel2Data.totalEarnings || 0) + LEVEL_2_COMMISSION;
+                            const newBalanceL2 = (referrerLevel2Data.balance || 0) + LEVEL_2_COMMISSION;
+                            batch.update(referrerLevel2Ref, {
+                                totalEarnings: newTotalEarningsL2,
+                                balance: newBalanceL2
+                            });
+                        }
+                    }
                 }
                 
                 await batch.commit();
@@ -486,7 +527,31 @@ e.target.reset(); // Clear the form
                     currentUserBalance = userData.balance || 0;
                     document.getElementById('dashboard-earnings').textContent = `₹${(userData.totalEarnings || 0).toFixed(2)}`;
                     document.getElementById('dashboard-balance').textContent = `₹${currentUserBalance.toFixed(2)}`;
-                    document.getElementById('dashboard-referrals').textContent = userData.downline ? userData.downline.length : 0;
+                    
+                    const level1Users = userData.downline || [];
+                    document.getElementById('dashboard-referrals').textContent = level1Users.length;
+
+                    // --- Calculate and Display Earnings Breakdown ---
+                    const level1Count = level1Users.length;
+                    let level2Count = 0;
+
+                    // To get level 2 count, we need to fetch each level 1 user's document
+                    if (level1Count > 0) {
+                        const level1UserDocsPromises = level1Users.map(id => getDoc(doc(db, "users", id)));
+                        const level1UserDocs = await Promise.all(level1UserDocsPromises);
+                        level1UserDocs.forEach(doc => {
+                            if (doc.exists()) {
+                                level2Count += (doc.data().downline || []).length;
+                            }
+                        });
+                    }
+
+                    document.getElementById('level-1-count').textContent = `${level1Count} User${level1Count !== 1 ? 's' : ''}`;
+                    document.getElementById('level-1-earnings').textContent = `₹${(level1Count * LEVEL_1_COMMISSION).toFixed(2)}`;
+                    document.getElementById('level-2-count').textContent = `${level2Count} User${level2Count !== 1 ? 's' : ''}`;
+                    document.getElementById('level-2-earnings').textContent = `₹${(level2Count * LEVEL_2_COMMISSION).toFixed(2)}`;
+
+
                     document.getElementById('dashboard-referral-code').textContent = userData.referralCode;
                     const downloadBtn = document.getElementById('download-pdf-btn');
                     if (downloadBtn) {
